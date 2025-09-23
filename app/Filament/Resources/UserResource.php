@@ -67,7 +67,7 @@ class UserResource extends Resource
             ->actions([
                 ActionGroup::make([
                     Tables\Actions\EditAction::make(),
-                    DeleteAction::make()
+                    DeleteAction::make()->successNotificationTitle('User deleted successfully.')
                 ])
                     ->button()
                     ->label("Actions")
