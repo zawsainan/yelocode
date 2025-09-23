@@ -4,11 +4,23 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
 use App\Filament\Resources\PostResource\RelationManagers;
+use App\Models\Category;
 use App\Models\Post;
 use Filament\Forms;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\ColorColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,27 +35,63 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('title')
+                    ->label('Title')
+                    ->required(),
+                TextInput::make('slug')
+                    ->label('Slug')
+                    ->required(),
+                ColorPicker::make('color')
+                    ->label('Color')
+                    ->required(),
+                Select::make('category_id')
+                    ->label('Category')
+                    ->required()
+                    ->options(Category::all()->pluck('name', 'id')),
+                TagsInput::make('tags')
+                    ->label('Tags')
+                    ->required(),
+                FileUpload::make('thumbnail')
+                    ->disk('public')
+                    ->directory('thumbnails'),
+                Checkbox::make('published')
+                    ->label('Published'),
+                MarkdownEditor::make('content')
+                    ->label('Content')
+                    ->columnSpanFull()
+
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->recordUrl(null)
             ->columns([
-                //
+                TextColumn::make('no')
+                    ->label('No')
+                    ->rowIndex(),
+                TextColumn::make('title')
+                    ->searchable()
+                    ->label('Title'),
+                TextColumn::make('category.name')
+                    ->label('Category'),
+                ColorColumn::make('color')
+                    ->label('Color'),
+                ImageColumn::make('thumbnail')
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                ])
+                    ->button()
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                //
             ]);
     }
 
