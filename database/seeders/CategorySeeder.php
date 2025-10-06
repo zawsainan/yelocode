@@ -15,24 +15,24 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Technology & Innovation',
-                'slug' => 'technology-innovation',
+                'name' => 'Technology',
+                'slug' => 'technology',
             ],
             [
-                'name' => 'Artificial Intelligence',
-                'slug' => 'artificial-intelligence',
+                'name' => 'Health',
+                'slug' => 'health',
             ],
             [
-                'name' => 'Health & Wellness',
-                'slug' => 'health-wellness',
+                'name' => 'Travel',
+                'slug' => 'travel',
             ],
             [
-                'name' => 'Travel & Adventure',
-                'slug' => 'travel-adventure',
+                'name' => 'Food',
+                'slug' => 'food',
             ],
             [
-                'name' => 'Business & Finance',
-                'slug' => 'business-finance',
+                'name' => 'Education',
+                'slug' => 'education',
             ],
         ];
 
